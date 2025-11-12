@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Memory</title>
+
+    <!--font type link-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <!-- customer css file link-->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="About.CSS">
+    <link rel="stylesheet" href="game.css">
+
+ 
+     
+
+</head>
+<body>
+    <!--header section starts-->
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="images/logo1.png" alt="">
+
+        </a>
+        <nav class="navbar">
+
+            <a href="#Home">Home</a>
+             <a href="#Game">Play</a>
+            <a href="#about">About</a>
+            
+            
+             
+            
+        </nav>
+
+
+
+
+
+
+
+
+
+</header>
+    <section class="Home" id="Home">
+        <video autoplay muted loop id="bg-video">
+            <source src="images/Purple and Blue Illustrative Game Night Presentation (1).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+         
+    
+         
+
+    </section> 
+    <section class="about-section" id="about">
+    <div class="about-container">
+
+      <!-- LEFT: Character Information -->
+      <div class="character-info">
+        <h2>Introduction to the Character</h2>
+        <p>
+          Meet <strong>Lune – The Lost Wanderer</strong>.<br><br>
+          Once a traveler who lost his memories, he now roams the mystical forest in search of fragments of his past.
+          Each memory card you match brings him closer to remembering who he once was.
+        </p>
+        <p class="quote">“I see flashes of who I was… every time you find a match.”</p>
+      </div>
+
+      <!-- RIGHT: Character Image -->
+      <div class="character-image">
+        <img src="images/Gemini_Generated_Image_mknh3cmknh3cmknh.png" alt="Lune – The Lost Wanderer">
+      </div>
+
+    </div>
+     
+  </section>
+
+    <!-- Video container -->
+     
+
+    <!-- About us paragraph BELOW the video -->
+     
+ 
+
+  <section class="seasons-section" id="Game">
+
+  <div class="season-card">
+    <img src="images/Gemini_Generated_Image_mknh3cmknh3cmknh.png" alt="Season 1">
+    <h3>Lune – The Lost Wanderer</h3>
+    <p>“I see flashes of who I was every time you find a match.”</p>
+    <!-- ✅ Add the missing ID -->
+    <button class="season-btn" id="season1">Season 1</button>
+  </div>
+
+  <!-- 🎵 Click Sound -->
+  <audio id="clickSound" src="sounds/mouse-click-sound-376877.mp3" preload="auto"></audio>
+
+ 
+
+<script>
+  // ✅ Wait until the page is fully loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    const season1Btn = document.getElementById("season1");
+    const clickSound = document.getElementById("clickSound");
+
+    season1Btn.addEventListener("click", () => {
+      // Play click sound
+      clickSound.currentTime = 0;
+      clickSound.play();
+
+      // Add a small visual click animation
+      season1Btn.classList.add("btn-clicked");
+
+      // Navigate after short delay
+      setTimeout(() => {
+        window.location.href = "user.html"; // 🔗 Change this path if needed
+      }, 400);
+    });
+  });
+</script>
+
+<style>
+  
+ 
+
+  /* Small click animation */
+  .btn-clicked {
+    transform: scale(0.9);
+    transition: transform 0.1s ease;
+  }
+</style>
+
+
+
+     
+        <div class="season-card locked">
+      <div class="lock-overlay">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+
+      <img src="images/Gemini_Generated_Image_i68lr5i68lr5i68l.png" alt="Season 2">
+      <h3>Lune – The Lost Wanderer</h3>
+      <p>“All the shadows unfold when memories are found.”</p>
+      <button class="season-btn">Season 2</button>
+    </div>
+
+ 
+     <div class="season-card locked">
+      <div class="lock-overlay">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <img src="images/Gemini_Generated_Image_tzi1aotzi1aotzi1 (1).png" alt="Season 3">
+      <h3>Lune – The Lost Wanderer</h3>
+      <p>“Every step brings light to what was once forgotten.”</p>
+      <button class="season-btn">Season 3</button>
+    </div>
+  </section>
+    
+
+
+ 
+ <!-- 🎵 Background Music -->
+<audio id="bgMusic" autoplay loop>
+  <source src="sounds/epic-anime-rock-song-with-piano-elements-261109.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+document.addEventListener("click", () => {
+  const bgMusic = document.getElementById("bgMusic");
+  bgMusic.play().catch(err => console.log("Autoplay blocked:", err));
+}, { once: true });
+</script>
+
+   
+    </body>

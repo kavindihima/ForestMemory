@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heart API Challenge ❤️</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins", sans-serif; }
+    body {
+      background: url("images/Gemini_Generated_Image_mknh3cmknh3cmknh.png") no-repeat center center fixed;
+      background-size: cover;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; color:#fff; text-align:center;
+    }
+    h1 { font-size:2rem; margin-bottom:1rem; text-shadow:0 0 15px #00e6ff; }
+    p { font-size:1.1rem; color:#e6faff; margin-bottom:1.5rem; }
+    iframe {
+      width:90%; height:60vh; border:2px solid #00e6ff; border-radius:15px;
+    box-shadow:0 0 15px #00e6ff;   margin-bottom:20px;
+    }
+    button {
+      background:#4feeff1c; border:2px solid #fff; border-radius:15px;
+      color:#fff; padding:12px 32px; font-size:1rem; font-weight:600;
+      cursor:pointer; transition:0.25s; margin-bottom:10px;
+    }
+    button:hover { transform:scale(1.05); background:rgba(255,255,255,0.1); }
+    footer { position:absolute; bottom:15px; color:#ddd; font-size:0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>💔 Time’s Up!</h1>
+  <p>Solve the Heart API puzzle to revive your memory journey!</p>
+
+  <iframe id="heartFrame" src="https://marcconrad.com/uob/heart/" title="Heart API Puzzle" allowfullscreen></iframe>
+
+  <!-- Solved button -->
+  <button id="solvedBtn">💖 I Solved It!</button>
+  <button onclick="returnToGame()">❤️ Return to Memory Game</button>
+
+  <footer>Heart API — Forest Memory Universe</footer>
+
+  <audio id="heartbeatSound" src="sounds/heartbeat.mp3" preload="auto" loop></audio>
+
+  <script>
+    const sound = document.getElementById("heartbeatSound");
+    const solvedBtn = document.getElementById("solvedBtn");
+
+    // Enable background sound after first click
+    window.addEventListener("click", () => {
+      if (sound.paused) sound.play().catch(()=>{});
+    }, { once:true });
+
+    // Redirect function
+    function returnToGame(extraTime = 20) { // extraTime in seconds
+      // Store extra time in localStorage
+      localStorage.setItem("extraTime", extraTime);
+      window.location.href = "Game.html"; 
+    }
+
+    // When user clicks "I Solved It!" button
+    solvedBtn.addEventListener("click", () => {
+      alert("Congrats! Extra time granted for the memory game!");
+      returnToGame(20); // give extra 60 seconds
+    });
+  </script>
+</body>
+</html>

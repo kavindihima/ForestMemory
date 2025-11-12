@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up | StyleSynth</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body {
+      background: url("images/Gemini_Generated_Image_mknh3cmknh3cmknh.png") center/cover fixed no-repeat;
+      display: flex; justify-content: center; align-items: center; height: 100vh;
+      color: #fff; overflow: hidden;
+    }
+    .signup-container {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      width: 400px;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    .signup-container h2 {
+      margin-bottom: 1.5rem; font-size: 1.8rem; color: #f0f0f0;
+    }
+    .input-group { margin-bottom: 1.2rem; text-align: left; }
+    .input-group label {
+      display: block; margin-bottom: 0.4rem; font-size: 0.9rem; color: #ccc;
+    }
+    .input-group input {
+      width: 100%; padding: 10px 12px; border: none; border-radius: 8px;
+      background: rgba(255, 255, 255, 0.15); color: #fff; outline: none;
+      font-size: 1rem; transition: all 0.3s ease;
+    }
+    .input-group input:focus {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 10px #5a3dd5;
+    }
+    .signup-btn {
+      padding:12px 30px; border-radius:30px;
+      background: linear-gradient(90deg,#2ddce2,#07525279);
+      color:#fff; font-weight:600; cursor:pointer;
+      box-shadow:0 6px 18px rgba(255, 255, 255, 0.25);
+      transition:transform .25s ease, box-shadow .25s ease, opacity .2s ease;
+      border:none;
+    }
+    .signup-btn:hover {
+      transform:translateY(-4px) scale(1.03);
+      box-shadow:0 10px 28px rgb(255, 255, 255);
+    }
+    .signup-btn:active { transform: scale(0.95); }
+    .extra-links { margin-top: 1rem; font-size: 0.9rem; }
+    .extra-links a {
+      color: #7a9fff; text-decoration: none; transition: color 0.3s ease;
+    }
+    .extra-links a:hover { color: #a8c0ff; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Create Your Account</h2>
+    <form id="signupForm">
+      <div class="input-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required />
+      </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Create a password" required />
+      </div>
+      <div class="input-group">
+        <label for="confirm">Confirm Password</label>
+        <input type="password" id="confirm" placeholder="Re-enter your password" required />
+      </div>
+      <button type="submit" class="signup-btn">Sign Up</button>
+    </form>
+    <div class="extra-links">
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+  </div>
+
+  <!-- Sounds -->
+  <audio id="clickSound" src="sounds/mouse-click-sound-376877.mp3" preload="auto"></audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const signupForm = document.getElementById("signupForm");
+      const clickSound = document.getElementById("clickSound");
+
+      signupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        clickSound.currentTime = 0;
+        clickSound.play().catch(() => console.log("Sound blocked"));
+
+        const password = document.getElementById("password").value;
+        const confirm = document.getElementById("confirm").value;
+
+        if (password !== confirm) {
+          alert("❌ Passwords do not match!");
+          return;
+        }
+
+        setTimeout(() => {
+          alert("✅ Account created successfully!");
+          window.location.href = "login.html";
+        }, 300);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forest Memory</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+
+    body {
+      background: url("images/Mystical\ Fall\ Landscape.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      animation: backgroundFade 4s ease-in-out forwards;
+      padding-top: 84px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @keyframes backgroundFade {
+      from { filter: blur(6px) brightness(.9); }
+      to   { filter: none; }
+    }
+
+    header {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1rem 4%; position:fixed; width:100%; top:0; z-index:100;
+      background: rgba(40, 202, 223, 0.055); backdrop-filter: blur(6px);
+    }
+
+    .navbar a {
+      margin-left:.8rem; padding:.45rem .9rem; color:#fff; border-radius:40px;
+      border:2px solid rgba(2, 11, 15, 0.205); text-decoration:none;
+      font-weight:600; font-size:0.95rem; transition: transform .15s, background .15s;
+      background: rgba(255,255,255,0.03);
+    }
+    .navbar a:hover { transform: translateY(-2px); background: rgba(255,255,255,0.06); }
+
+    .controls { margin: 18px 0 10px 0; display: flex; gap: 12px; z-index: 10; }
+    .controls button {
+      background: #5ae3f521; color: #fff; border:#fff 2px solid; border-radius: 15px;
+      padding: 8px 16px; cursor: pointer; transition: 0.2s; font-weight:600;
+    }
+    .controls button:hover { transform: translateY(-3px); }
+
+    .board-wrap { width: min(960px, 94%); margin: 10px auto 40px; display: flex; justify-content: center; }
+
+    .game-board { 
+      display: grid; 
+      grid-template-columns: repeat(4, 140px); 
+      gap: 18px; 
+      justify-content: center; 
+      transition: transform 1s ease;
+    }
+
+    @media (max-width: 540px) { 
+      .game-board { grid-template-columns: repeat(3, 100px); gap: 10px; } 
+      .card { width: 100px; height: 100px; } 
+    }
+
+    .card { 
+      width: 140px; height: 140px; 
+      perspective: 1000px; 
+      cursor: pointer; 
+    }
+
+    .card-inner { 
+      position: relative; 
+      width: 100%; height: 100%; 
+      transition: transform 0.6s; 
+      transform-style: preserve-3d; 
+      border-radius: 12px; 
+      border: 2px solid #12dbff; /* Border only */
+      box-shadow:0 0 15px #ffffff;   
+    }
+
+    .card.flip .card-inner { transform: rotateY(180deg); }
+
+    .card-front, .card-back { 
+      position: absolute; 
+      width: 100%; height: 100%; 
+      border-radius: 12px; 
+      backface-visibility: hidden; 
+      overflow: hidden; 
+      box-shadow:0 0 15px #3b4344;   
+    }
+
+    .card-front { 
+      background: url('images/Gemini_Generated_Image_i68lr5i68lr5i68l.png') center/cover no-repeat; 
+    }
+
+    .card-back { 
+      transform: rotateY(180deg); 
+      background-size: cover; 
+      background-position: center; 
+    }
+
+    .card.matched { pointer-events: none; opacity: 0.92; transform: scale(.995); }
+
+    /* ❄️ Snow-like floating animation */
+    @keyframes floatSnow {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(var(--xHalf), var(--yHalf)) rotate(180deg) scale(0.9);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate(var(--x), var(--y)) rotate(360deg) scale(0.6);
+        opacity: 0;
+      }
+    }
+
+    footer { margin-top: 16px; display: flex; gap: 20px; width: 100%; justify-content: center; padding-bottom: 28px; }
+    .info-box { background: rgba(0, 0, 0, 0.6); padding: 12px 26px; border-radius: 10px; min-width: 150px; text-align: center; }
+    .info-box span { display: block; font-size: 16px; font-weight:600; color: #f0f0f0; }
+    .info-box small { display:block; font-size:12px; color:#cfcfcf; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="index.html#Game">Play</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </header>
+
+  <div class="controls">
+    <button onclick="skipGame()">Skip</button>
+    <button onclick="quitGame()">Quit</button>
+  </div>
+
+  <div class="board-wrap">
+    <div class="game-board" id="gameBoard" aria-live="polite"></div>
+  </div>
+
+  <footer>
+    <div class="info-box"><span id="score">0</span><small>Score</small></div>
+    <div class="info-box"><span id="timer">01:00</span><small>Time left</small></div>
+  </footer>
+
+  <audio id="clickSound" src="sounds/mouse-click-sound-376877.mp3" preload="auto"></audio>
+  <audio id="matchSound" src="sounds/success-videogame-sfx-423626.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="sounds/mistletoe-xmas-piano-music-218353.mp3" preload="auto" loop></audio>
+
+  <script>
+  const images = [
+    "images/ A.jpg",
+    "images/B.jpg",
+    "images/ C.jpg",
+    "images/ D.jpg",
+    "images/ E.jpg",
+    "images/ F.jpg",
+  ];
+
+  const cardsArray = [...images, ...images];
+  const gameBoard = document.getElementById("gameBoard");
+  const scoreDisplay = document.getElementById("score");
+  const timerDisplay = document.getElementById("timer");
+  const clickSound = document.getElementById("clickSound");
+  const matchSound = document.getElementById("matchSound");
+  const bgMusic = document.getElementById("bgMusic");
+
+  let firstCard = null, secondCard = null;
+  let hasFlipped = false, lockBoard = false;
+  let score = 0, time = 60, timerInterval = null;
+
+  function loadGameState() {
+    const saved = localStorage.getItem("memoryGameState");
+    const extraTime = parseInt(localStorage.getItem("extraTime")) || 0;
+    if (saved) {
+      const state = JSON.parse(saved);
+      score = state.score;
+      time = state.time + extraTime;
+      localStorage.removeItem("extraTime");
+      createBoard(state.matched);
+    } else {
+      time += extraTime;
+      localStorage.removeItem("extraTime");
+      createBoard([]);
+    }
+    scoreDisplay.textContent = score;
+    updateTimerDisplay();
+  }
+
+  function shuffle(array) {
+    const a = array.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function createBoard(matchedList = []) {
+    gameBoard.innerHTML = "";
+    const shuffled = shuffle(cardsArray);
+
+    shuffled.forEach(imgSrc => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.dataset.image = imgSrc;
+      card.innerHTML = `
+        <div class="card-inner">
+          <div class="card-front"></div>
+          <div class="card-back" style="background-image: url('${imgSrc}')"></div>
+        </div>`;
+
+      if (matchedList.includes(imgSrc)) {
+        card.classList.add("matched", "flip");
+      } else {
+        card.addEventListener("click", flipCard);
+      }
+      gameBoard.appendChild(card);
+    });
+  }
+
+  function flipCard() {
+    if (lockBoard || this === firstCard) return;
+    this.classList.add("flip");
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    if (!hasFlipped) {
+      hasFlipped = true;
+      firstCard = this;
+      return;
+    }
+
+    secondCard = this;
+    checkForMatch();
+  }
+
+  function checkForMatch() {
+    const isMatch = firstCard.dataset.image === secondCard.dataset.image;
+    isMatch ? disableCards() : unflipCards();
+  }
+
+  function disableCards() {
+    firstCard.classList.add("matched");
+    secondCard.classList.add("matched");
+    firstCard.removeEventListener("click", flipCard);
+    secondCard.removeEventListener("click", flipCard);
+
+    matchSound.currentTime = 0;
+    matchSound.play();
+
+    score += 10;
+    scoreDisplay.textContent = score;
+    saveGameState();
+    resetTurn();
+
+    if (document.querySelectorAll(".card.matched").length === cardsArray.length) {
+      clearInterval(timerInterval);
+      localStorage.removeItem("memoryGameState");
+      floatLikeSnow();
+    }
+  }
+
+  function unflipCards() {
+    lockBoard = true;
+    setTimeout(() => {
+      firstCard.classList.remove("flip");
+      secondCard.classList.remove("flip");
+      resetTurn();
+    }, 900);
+  }
+
+  function resetTurn() {
+    [hasFlipped, lockBoard] = [false, false];
+    [firstCard, secondCard] = [null, null];
+  }
+
+  // ❄️ Gentle floating snow-like animation
+  function floatLikeSnow() {
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      const randomX = (Math.random() - 0.5) * 400 + "px";
+      const randomY = -(Math.random() * 600 + 200) + "px"; // floats upward
+      const randomDuration = 3 + Math.random() * 2; // 3-5s
+      card.style.setProperty("--x", randomX);
+      card.style.setProperty("--y", randomY);
+      card.style.setProperty("--xHalf", parseFloat(randomX)/2 + "px");
+      card.style.setProperty("--yHalf", parseFloat(randomY)/2 + "px");
+      card.style.animation = `floatSnow ${randomDuration}s ease-in-out forwards`;
+    });
+
+    setTimeout(() => {
+      window.location.href = "congradulations1.html";
+    }, 5000);
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      time--;
+      updateTimerDisplay();
+      if (time <= 0) {
+        saveGameState();
+        clearInterval(timerInterval);
+        window.location.href = "heartApi1.html";
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    timerDisplay.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+
+  function saveGameState() {
+    const matchedCards = Array.from(document.querySelectorAll(".card.matched")).map(c => c.dataset.image);
+    localStorage.setItem("memoryGameState", JSON.stringify({ score, time, matched: matchedCards }));
+  }
+
+  function skipGame() {
+    saveGameState();
+    window.location.href = "heartApi1.html";
+  }
+
+  function quitGame() {
+    localStorage.removeItem("memoryGameState");
+    window.location.href = "index.html";
+  }
+
+  window.addEventListener("click", () => {
+    if (bgMusic.paused) bgMusic.play().catch(() => {});
+  }, { once: true });
+
+  loadGameState();
+  startTimer();
+</script>
+</body>
+</html>

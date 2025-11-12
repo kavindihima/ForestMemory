@@ -1,0 +1,130 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="game.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Forest Memory</title>
+    <style>
+        * { box-sizing: border-box; font-family: "Poppins", sans-serif; margin: 0; padding: 0; }
+        body {
+            background: url("images/Gemini_Generated_Image_mknh3cmknh3cmknh.png") center/cover fixed no-repeat;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .header { display:flex; justify-content:space-between; align-items:center; padding:1rem 4%; position:fixed; width:100%; top:0; z-index:100; }
+        .navbar a { margin-left:.8rem; padding:.5rem 1rem; color:#fff; border-radius:40px; border:2px solid rgba(136,204,231,.35); text-decoration:none; }
+        .hero-section { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100vh; padding-top:100px; animation:fadeIn .9s ease; }
+        .hero-section img { max-width:320px; border-radius:14px; opacity:.85; filter:drop-shadow(0 10px 25px rgba(0,0,0,.25)); transition:all .45s ease; animation:floaty 6s ease-in-out infinite; }
+        .hero-section img:hover { transform:scale(1.04); opacity:1; filter:drop-shadow(0 0 30px rgba(122,94,255,.45)); }
+        .btn-container { display:flex; gap:1.25rem; margin-top:1.6rem; }
+        .hero-btn {
+            padding:12px 30px;
+            border-radius:30px;
+            background: linear-gradient(90deg,#2ddce2,#07525279);
+            color:#fff;
+            font-weight:600;
+            cursor:pointer;
+            box-shadow:0 6px 18px rgb(255, 255, 255);
+            transition:transform .25s ease, box-shadow .25s ease, opacity .2s ease;
+        }
+        .hero-btn:hover { transform:translateY(-4px) scale(1.03); box-shadow:0 10px 28px rgba(0,0,0,.35); }
+        .btn-clicked { transform: scale(.92) !important; opacity:.9; }
+        @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+        @media (max-width:520px) {
+            .hero-section img { max-width:220px; }
+            .hero-btn { padding:10px 18px; font-size:.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="seasons-section" id="Game">
+
+  <div class="season-card">
+    <img src="images/Gemini_Generated_Image_mknh3cmknh3cmknh.png" alt="Season 1">
+    <h3>Lune – The Lost Wanderer</h3>
+    <p>“I see flashes of who I was every time you find a match.”</p>
+    <button class="season-btn" id="season1">Start-journey</button>
+  </div>
+
+  <div class="season-card locked">
+    <div class="lock-overlay">
+      <i class="fa-solid fa-lock"></i>
+    </div>
+    <img src="images/Gemini_Generated_Image_i68lr5i68lr5i68l.png" alt="Season 2">
+    <h3>Lune – The Lost Wanderer</h3>
+    <p>“All the shadows unfold when memories are found.”</p>
+    <button class="season-btn">Season 2</button>
+  </div>
+
+  <div class="season-card locked">
+    <div class="lock-overlay">
+      <i class="fa-solid fa-lock"></i>
+    </div>
+    <img src="images/Gemini_Generated_Image_tzi1aotzi1aotzi1 (1).png" alt="Season 3">
+    <h3>Lune – The Lost Wanderer</h3>
+    <p>“Every step brings light to what was once forgotten.”</p>
+    <button class="season-btn">Season 3</button>
+  </div>
+
+</section>
+
+<!-- Sounds -->
+<audio id="clickSound" src="sounds/mouse-click-sound-376877.mp3" preload="auto"></audio>
+ 
+<audio id="bgMusic" src="soundS/mistletoe-xmas-piano-music-218353.mp3" loop preload="auto"></audio> <!-- Background music -->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const season1Btn = document.getElementById("season1");
+    const clickSound = document.getElementById("clickSound");
+    const hoverSound = document.getElementById("hoverSound");
+    const bgMusic = document.getElementById("bgMusic");
+
+    // Start background music after first user interaction
+    const startMusic = () => {
+        bgMusic.volume = 0.25; // optional: lower volume
+        bgMusic.play().catch(() => console.log("Autoplay blocked"));
+        document.removeEventListener("click", startMusic);
+    };
+    document.addEventListener("click", startMusic);
+
+    // Click Season 1
+    season1Btn.addEventListener("click", () => {
+        clickSound.currentTime = 0;
+        clickSound.play();
+        season1Btn.classList.add("btn-clicked");
+        setTimeout(() => { window.location.href = "Game.html"; }, 400);
+    });
+    season2Btn.addEventListener("click", () => {
+        clickSound.currentTime = 0;
+        clickSound.play();
+        season1Btn.classList.add("btn-clicked");
+        setTimeout(() => { window.location.href = "Game1.html"; }, 400);
+    });
+    season3Btn.addEventListener("click", () => {
+        clickSound.currentTime = 0;
+        clickSound.play();
+        season1Btn.classList.add("btn-clicked");
+        setTimeout(() => { window.location.href = "Game2.html"; }, 400);
+    });
+
+    // Hover sound (optional)
+    document.querySelectorAll(".season-card").forEach(card => {
+        card.addEventListener("mouseenter", async () => {
+            hoverSound.currentTime = 0;
+            try { await hoverSound.play(); } catch (err) { console.log("Hover blocked"); }
+        });
+    });
+});
+</script>
+
+<style>
+.btn-clicked { transform: scale(0.9); transition: transform 0.1s ease; }
+</style>
+
+</body>
+</html>

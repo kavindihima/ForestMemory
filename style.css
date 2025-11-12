@@ -1,0 +1,528 @@
+:root{
+    --main-color: #002efc; /* Gold-like color */
+    --hover-color: #1b05e4; /* Darker shade for hover */
+    --background-color: #2900e0; /* Dark navbar background */
+    --bg:#01013;
+    --border:.1rem solid rgba(255,255,255,.3);
+}
+
+* {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: 0.2s linear;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-padding-top: 9rem;
+    scroll-behavior: smooth;
+}
+
+html::-webkit-scrollbar {
+    width: .8rem;
+    background: #84fbff;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+    background-color:#84fbff;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: #84fbff;
+    border-radius: 5rem;
+}
+
+body {
+    background: #58e7fa;
+}
+
+.heading {
+    text-align: center;
+    color: #21ffff;
+    text-transform: uppercase;
+    padding-bottom: 3.5rem;
+    font-size: 4rem;
+}
+
+.heading span {
+    color: var(--main-color);
+    text-transform: uppercase;
+}
+
+section {
+    padding: 2rem 7%;
+}
+
+.btn {
+    margin-top: 1rem;
+    display: inline-block;
+    padding: 7rem 3rem;
+    font-size: 1.7rem;
+    color: #333;
+    background: var(--main-color);
+    cursor: pointer;
+}
+
+.btn:hover {
+    letter-spacing: .2rem;
+}
+
+.header {
+    background-color: #99dfe9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 7%;
+    border-bottom: var(--border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+/* Logo Styling */
+.header .logo img {
+    height: 40px;
+    max-height: 40px;
+    width: auto;
+    margin-bottom: -5px;
+}
+
+/* Navbar Styling */
+.header .navbar a {
+    display: inline-block;
+  margin: 0 0.8rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.6rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: transparent;
+  border: 2px solid #88cce7;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.header .navbar a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #66bfff; /* Slightly deeper baby blue for contrast */
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.header .navbar a:hover {
+ /* Slightly darker baby blue when hovered */
+  background-color: #ffffff;
+  color: #a9d7ff;
+}
+
+.header .navbar a:hover::after {
+  width: 100%; /* Smooth underline effect */
+}
+ 
+
+/* Dropdown Menu Styling */
+ 
+.header .icons div {
+    color: #fff;
+    cursor: pointer;
+    font-size: 2.5rem;
+    margin-left: 2rem;
+}
+
+.header .icons div:hover {
+    color: var(--main-color);
+}
+
+/* Sticky Navbar */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+
+    .icons {
+        display: block;
+    }
+
+    .header .navbar {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background:#58e7fa;
+        width: 30rem;
+        height: calc(100vh - 9.5rem);
+        display: none;
+    }
+
+    .header .navbar a {
+        color: #ffffff;
+        display: block;
+        margin: 1.5rem;
+        padding: 1rem;
+        font-size: 2rem;
+    }
+
+    .header .navbar.active {
+        right: 0;
+        display: block;
+    }
+}
+
+.icons {
+    display: flex;
+}
+
+.Home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+   
+    background-size: cover;
+    background-position: center;
+}
+
+#bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the screen without distortion */
+    z-index: -1; /* Place the video behind other content */
+}
+.Home .content{
+   max-width: 60rem;
+}.Home {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Common style for both videos */
+#bg-video-mobile {
+    display: none; /* Hide the mobile video by default */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the screen without distortion */
+    z-index: -1; /* Place the video behind other content */
+}
+ 
+
+/* On small mobile screens, adjust */
+@media (max-width: 768px) {
+  .video-container {
+    height: 60vh; /* Smaller height on mobile */
+  }
+}
+
+
+ 
+
+@media (max-width: 768px) {
+    .Home {
+        height: auto;
+        padding: 50px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+}
+
+/* Extra Small Screens (Phones Below 480px) */
+@media (max-width: 480px) {
+    .Home {
+        padding: 30px 15px;
+    }
+
+    
+}
+
+
+.Home .content {
+    max-width: 60rem;
+}
+
+.Home .content h1 {
+    font-size: 5rem;
+    text-transform: uppercase;
+    color: #0d30c9;
+}
+
+.Home .content p {
+    font-size: 1.2rem;
+    font-weight: lighter;
+    line-height: 1.8;
+    padding: 1rem 0;
+    color: #b68e66;
+}
+
+ 
+.video-container1 {
+    max-width: 900px;   /* bigger size on large screens */
+    width: 100%;         /* takes more width on mobile */
+    margin: 30px auto;  /* centers with more spacing */
+    border-radius: 20px; /* smoother rounded corners */
+    overflow: hidden;   
+    box-shadow: 0 6px 25px rgba(0,0,0,0.25); /* deeper shadow */
+}
+
+.video-container1 video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+}
+ .video-container {
+    max-width: 900px;   /* bigger size on large screens */
+    width: 95%;         /* takes more width on mobile */
+    margin: 30px auto;  /* centers with more spacing */
+    border-radius: 20px; /* smoother rounded corners */
+    overflow: hidden;   
+    box-shadow: 0 6px 25px rgba(0,0,0,0.25); /* deeper shadow */
+}
+
+.video-containervideo {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+}
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+    .video-container {
+        height: 40vh; /* smaller height for tablets/phones */
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-container {
+        height: 30vh; /* even smaller for small phones */
+        border-radius: 10px;
+    }
+}
+/* ===== Video Container 2 Styling ===== */
+.video-container2 {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;    /* adjust for desktop size */
+  margin: 30px auto;    /* center on page */
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+  background: #000;
+}
+
+/* Maintain 16:9 ratio */
+.video-container2::before {
+  content: "";
+  display: block;
+  padding-top: 56.25%;   /* 16:9 aspect ratio */
+}
+
+/* Video fills the container */
+.video-container2 video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* cover = nice crop effect */
+  border: none;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .video-container2 {
+    border-radius: 12px;
+    margin: 20px auto;
+  }
+}
+/* CSS */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #4a00e0; /* gradient purple */
+  background: linear-gradient(90deg, #8e2de2, #4a00e0);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, #4a00e0, #8e2de2);
+  transform: scale(1.05);
+}
+
+.about {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    background-color: #0a0a0a;
+    border-radius: 10px;
+    gap: 20px;
+    flex-direction: column;
+    position: relative;
+}
+
+ 
+.about-us .heading {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: right;
+    color: #0481ff;
+}
+
+.about-us .content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
+    height: auto;
+}
+
+.text-container {
+    background-color: #04081b;
+    color: #e76262;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    flex: 1;
+    text-align: right;
+}
+
+.text-container h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.text-container p {
+    margin: 10px 0 0 0;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+.video-section {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full desktop height */
+  overflow: hidden;
+}
+
+/* Video background */
+.video-section video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  
+    transform: translate(-50%, -50%);
+  object-fit: cover; /* Ensures it fills screen */
+}
+
+/* Overlay text */
+.video-overlay {
+  position: relative;
+  text-align: center;
+  top: 40%;
+  color: #fff;
+  z-index: 2;
+  padding: 0 20px;
+}
+
+.video-overlay h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.video-overlay p {
+  font-size: 1.2rem;
+  margin-top: 12px;
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 768px) {
+  .video-section {
+    height: 70vh; /* Reduce height on mobile */
+  }
+
+  .video-overlay h1 {
+    font-size: 2rem;
+  }
+
+  .video-overlay p {
+    font-size: 1rem;
+  }
+}
+/* Video Container */
+.video-container2 {
+  position: relative;
+  width: 100%;
+  max-width: 100%;   /* Full width */
+  height: auto;
+  overflow: hidden;
+  border-radius: 18px; /* Smooth rounded corners */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* Elegant shadow */
+  margin: 20px auto;
+}
+
+/* Video Style */
+.video-container2 video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Keeps aspect ratio, covers container */
+  display: block;
+  border-radius: 18px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .video-container2 {
+    border-radius: 12px;
+    margin: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .video-container2 {
+    border-radius: 10px;
+    margin: 10px;
+  }
+}
